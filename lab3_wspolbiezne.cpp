@@ -1,6 +1,6 @@
 //============================================================================
 // Name        : lab3_wspolbiezne.cpp
-// Author      : 
+// Author      : Kamil Hajdukiewicz
 // Version     :
 // Copyright   : Your copyright notice
 // Description : Hello World in C++, Ansi-style
@@ -29,14 +29,14 @@ void fun(int level, int x, int y)
 	{
 		tab[x][y+i]=1;
 		tab[x+i][y+size-i]=1;
-		tab[x+1][y+1]=1;
+		tab[x+i][y]=1;
 	}
 
 	if(level+1<levelMax)
 	{
 		watek[0] = thread(fun, level+1, x, y );
 		watek[1] = thread(fun, level+1, x, y + size/2);
-		watek[2] = thread(fun, level+1, x + size/2, y+size/2);
+		watek[2] = thread(fun, level+1, x + size/2, y);
 
 		watek[0].join();
 		watek[1].join();
@@ -67,6 +67,11 @@ int main() {
     fp= fopen(filename,"wb");
     fprintf(fp,"P6\n %s\n %d\n %d\n %d\n",comment,n,n,MaxColorCoponentValue);
 
-    fwrite(tab,1,1024*1024,fp);
+	for(i=0;i<1024;i++)
+		for(j=0;j<1024;j++)
+		{
+    		fwrite(color[i][j],1,3,fp);
+		}
+	fclose(fp);
 	return 0;
 }
